@@ -601,7 +601,15 @@ function shouldCommentIndent($comment, &$comment_line=NULL) {
 }
 
 function themeInit($archive) {
-
+	$backup = bubble_get_theme_backup();
+	if (empty($backup)) {
+		return;
+	}
+	foreach ($backup as $key => $value) {
+		if (!isset($archive->options->{$key}) || $archive->options->{$key} === '' || $archive->options->{$key} === null) {
+			$archive->options->{$key} = $value;
+		}
+	}
 }
 
 function themeConfigHandle($settings, $isInit) {
