@@ -55,7 +55,16 @@
 			<div class="row">
 				<div class="col-md-6">
 					<div class="copyright">
-						<?php _e((string)($this->options->footerText ?? 'Powered by Typecho | Theme by Bubble')); ?>
+						<?php
+							$footerText = $this->options->footerText ?? '';
+							if ($footerText === '' || $footerText === null) {
+								$backup = function_exists('bubble_get_theme_backup') ? bubble_get_theme_backup() : [];
+								if (is_array($backup) && isset($backup['footerText'])) {
+									$footerText = $backup['footerText'];
+								}
+							}
+							_e((string)$footerText);
+						?>
 					</div>
 				</div>
 				<div class="col-md-6">
