@@ -47,7 +47,13 @@
 
 	<!-- PrismJS CSS -->
 	<?php if ($this->options->prismjs): ?>
+		<?php if ($this->options->prismThemeSource == 'custom' && $this->options->prismCustomCss): ?>
+	<link rel="stylesheet" type="text/css" href="<?php $this->options->prismCustomCss(); ?>" />
+		<?php elseif ($this->options->prismThemeSource == 'local' && $this->options->prismLocalCss): ?>
+	<link rel="stylesheet" type="text/css" href="<?php $this->options->themeUrl($this->options->prismLocalCss()); ?>" />
+		<?php else: ?>
 	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/prismjs@1.30.0/themes/<?php $this->options->prismTheme(); ?>.css" />
+		<?php endif; ?>
 	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/prismjs@1.30.0/plugins/toolbar/prism-toolbar.css" />
 		<?php if ($this->options->prismLine): ?>
 		<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/prismjs@1.30.0/plugins/line-numbers/prism-line-numbers.css" />

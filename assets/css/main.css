@@ -601,39 +601,51 @@ pre code {
 
 .content pre.has-language .toolbar {
     position: absolute;
-    top: .5rem;
-    right: .5rem;
+    top: .6rem;
+    right: .6rem;
     opacity: 1;
+    display: inline-flex;
+    align-items: center;
+    gap: .35rem;
+    padding: .25rem .35rem;
+    background: rgba(255, 255, 255, .72);
+    border: 1px solid rgba(15, 23, 42, .08);
+    border-radius: .55rem;
+    box-shadow: 0 6px 16px rgba(15, 23, 42, .12);
+    backdrop-filter: blur(8px);
 }
 
 .content pre:not(.has-language) .toolbar {
     display: none;
 }
 
-.content pre .toolbar-item {
-    margin-left: .35rem;
-}
-
 .content pre .toolbar-item > a,
 .content pre .toolbar-item > button,
 .content pre .toolbar-item > span {
-    background: rgba(15, 23, 42, .08);
-    color: #334155;
+    background: rgba(15, 23, 42, .06);
+    color: #1f2937;
     border: 1px solid rgba(15, 23, 42, .12);
-    border-radius: .35rem;
-    padding: .2rem .5rem;
-    font-size: .72rem;
+    border-radius: .4rem;
+    padding: .2rem .55rem;
+    font-size: .7rem;
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: .03em;
-    transition: background-color .15s ease, border-color .15s ease, color .15s ease;
+    letter-spacing: .04em;
+    line-height: 1.2;
+    transition: background-color .15s ease, border-color .15s ease, color .15s ease, transform .15s ease;
 }
 
 .content pre .toolbar-item > a:hover,
 .content pre .toolbar-item > button:hover {
     background: rgba(15, 23, 42, .14);
-    border-color: rgba(15, 23, 42, .2);
+    border-color: rgba(15, 23, 42, .22);
     color: #0f172a;
+    transform: translateY(-1px);
+}
+
+.content pre .toolbar-item > a:active,
+.content pre .toolbar-item > button:active {
+    transform: translateY(0);
 }
 
 .content pre .line-numbers-rows {

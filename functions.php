@@ -260,6 +260,14 @@ function themeConfig($form) {
 		),
 	'prism', _t('prism.js 高亮主题'), _t('选择 prism.js 代码高亮的主题配色'));
 	$form->addInput($prismTheme);
+	$prismThemeSource = new Typecho_Widget_Helper_Form_Element_Radio('prismThemeSource',
+		array('official' => _t('官方主题'), 'custom' => _t('第三方/自定义 CSS URL'), 'local' => _t('本地 CSS 路径')),
+		'official', _t('prism.js 主题来源'), _t('选择官方主题、第三方/自定义 URL 或本地 CSS 路径'));
+	$form->addInput($prismThemeSource);
+	$prismCustomCss = new Typecho_Widget_Helper_Form_Element_Text('prismCustomCss', NULL, '', _t('prism.js 自定义主题 CSS 地址'), _t('填写完整 CSS URL，仅在主题来源选择“第三方/自定义 CSS URL”时生效'));
+	$form->addInput($prismCustomCss);
+	$prismLocalCss = new Typecho_Widget_Helper_Form_Element_Text('prismLocalCss', NULL, '', _t('prism.js 本地主题 CSS 路径'), _t('填写主题目录内路径，例如 assets/css/prism-custom.css，仅在主题来源选择“本地 CSS 路径”时生效'));
+	$form->addInput($prismLocalCss);
 	$toc = new Typecho_Widget_Helper_Form_Element_Radio('toc',
 		array('0' => _t('关闭'),
 			'1' => _t('打开'),
