@@ -601,6 +601,9 @@ function shouldCommentIndent($comment, &$comment_line=NULL) {
 }
 
 function themeInit($archive) {
+	if (!isset($archive->options) || $archive->options === null) {
+		return;
+	}
 	$backup = bubble_get_theme_backup();
 	if (empty($backup)) {
 		return;
