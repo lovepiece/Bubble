@@ -288,6 +288,9 @@
 	<?php endif; ?>
 	<!-- Prism JS -->
 	<?php if($this->options->prismjs): ?>
+	<?php if (file_exists(__DIR__ . '/assets/js/prism.js')): ?>
+	<script src="<?php $this->options->themeUrl("assets/js/prism.js"); ?>"></script>
+	<?php else: ?>
 	<script src="https://cdn.jsdelivr.net/npm/prismjs@1.30.0/components/prism-core.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/prismjs@1.30.0/plugins/autoloader/prism-autoloader.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/prismjs@1.30.0/plugins/toolbar/prism-toolbar.min.js"></script>
@@ -295,6 +298,7 @@
 	<script src="https://cdn.jsdelivr.net/npm/prismjs@1.30.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
 	<?php if($this->options->prismLine): ?>
 		<script src="https://cdn.jsdelivr.net/npm/prismjs@1.30.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+	<?php endif; ?>
 	<?php endif; ?>
 	<?php endif; ?>
 	<!-- Alert -->
