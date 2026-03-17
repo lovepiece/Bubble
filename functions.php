@@ -1,5 +1,30 @@
 <?php
 if (!defined('__TYPECHO_ROOT_DIR__')) exit;
+function bubble_get_theme_backup() {
+	$db = Typecho_Db::get();
+	$row = $db->fetchRow($db->select()->from('table.options')->where('name = ?', 'theme_backup:Bubble')->where('user = ?', 0));
+	if (!empty($row['value'])) {
+		$data = json_decode($row['value'], true);
+		if (is_array($data)) {
+			return $data;
+		}
+	}
+	return [];
+}
+
+function bubble_store_theme_backup($settings) {
+	if (!is_array($settings)) return;
+	$db = Typecho_Db::get();
+	$name = 'theme_backup:Bubble';
+	$value = json_encode($settings);
+	$exists = $db->fetchRow($db->select()->from('table.options')->where('name = ?', $name)->where('user = ?', 0));
+	if ($exists) {
+		$db->query($db->update('table.options')->rows(['value' => $value])->where('name = ?', $name)->where('user = ?', 0));
+	} else {
+		$db->query($db->insert('table.options')->rows(['name' => $name, 'value' => $value, 'user' => 0]));
+	}
+}
+
 function themeConfig($form) {
 	Typecho_Widget::widget('Widget_Themes_List')->to($themes);
 	foreach ($themes -> stack as $key => $value){
@@ -259,6 +284,15 @@ function themeConfig($form) {
 		),
 		'1', _t('被回复人的昵称显示'), _t('选择是否显示被回复人的昵称，显示"aa 回复 bb"，或者只显示"aa"'));
 	$form->addInput($comment_object_nick);
+
+	$backup = bubble_get_theme_backup();
+	if (!empty($backup)) {
+		foreach ($form->getInputs() as $name => $input) {
+			if (array_key_exists($name, $backup)) {
+				$input->value($backup[$name]);
+			}
+		}
+	}
 
 	$header_links_html = '
 	<style>
@@ -560,6 +594,11 @@ function shouldCommentIndent($comment, &$comment_line=NULL) {
 
 function themeInit($archive) {
 
+}
+
+function themeConfigHandle($settings, $isInit) {
+	bubble_store_theme_backup($settings);
+	return false;
 }
 
 function themeFields($layout) {
