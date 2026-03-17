@@ -8,6 +8,21 @@ function themeConfig($form) {
 		}
 	}
 	
+	$currentVersion = '';
+	$indexFile = __DIR__ . '/index.php';
+	if (is_readable($indexFile)) {
+		$indexContent = file_get_contents($indexFile);
+		if (preg_match('/@version\\s+([^\\s]+)/', $indexContent, $match)) {
+			$currentVersion = trim($match[1]);
+		}
+	}
+	if ($currentVersion === '' && isset($value["version"])) {
+		$currentVersion = $value["version"];
+	}
+	if ($currentVersion === '') {
+		$currentVersion = 'unknown';
+	}
+
 	if(!file_exists("themeupdater.php")){
 		$updater = fopen("themeupdater.php", "w");
 		$txt = '
@@ -121,7 +136,7 @@ function themeConfig($form) {
 	}
 	
 	echo '<script>
-		var version = "' . $value["version"] . '"
+		var version = "' . $currentVersion . '"
 		function toNum(a){
 			var a=a.toString();
 			var c=a.split('.');
@@ -147,7 +162,7 @@ function themeConfig($form) {
 		</li>
 		<li>
 			<p class="description" id="update-dec">
-				正在检查更新...
+				当前版本为 ' . $currentVersion . '，正在检查更新...
 			</p>
 		</li>
 		<li hidden id="update-btn-li">
@@ -173,7 +188,7 @@ function themeConfig($form) {
 			}
 		},
 		error: function() {
-			$("#update-dec").html("检查更新程序出错！")
+			$("#update-dec").html("当前版本为 ' . $currentVersion . '，检查更新程序出错！")
 		}
 	});
 	</script>';
