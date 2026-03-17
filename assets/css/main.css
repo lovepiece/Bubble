@@ -576,6 +576,26 @@ pre code {
     color: inherit;
 }
 
+.content pre {
+    border-radius: .5rem;
+    border: 1px solid rgba(0, 0, 0, .06);
+}
+
+.content pre:not([class*='language-']) {
+    background: #f6f8fb;
+}
+
+.content pre > code {
+    display: block;
+    white-space: pre;
+}
+
+.content :not(pre) > code {
+    padding: .1rem .35rem;
+    border-radius: .25rem;
+    background: rgba(17, 24, 39, .06);
+}
+
 .pre-scrollable {
     overflow-y: scroll;
     max-height: 340px;

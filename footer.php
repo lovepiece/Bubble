@@ -131,14 +131,49 @@
 	<!-- Pjax -->
 	
 	<script>
-		function init(){
-			<?php if($this->options->prismjs and $this->options->prismLine): ?>
-			var pres = document.querySelectorAll('pre');
-			var lineNumberClassName = 'line-numbers';
-			pres.forEach(function (item, index) {
-				item.className = item.className == '' ? lineNumberClassName : item.className + ' ' + lineNumberClassName;
+		<?php if($this->options->prismjs): ?>
+		var prismLineEnabled = <?php echo $this->options->prismLine ? 'true' : 'false'; ?>;
+		function getPrismLanguageClass(element) {
+			if (!element || !element.className) return '';
+			var classes = element.className.split(/\s+/);
+			for (var i = 0; i < classes.length; i++) {
+				var cls = classes[i];
+				if (!cls) continue;
+				if (cls.indexOf('language-') === 0) return cls;
+				if (cls.indexOf('lang-') === 0) return 'language-' + cls.slice(5);
+			}
+			return '';
+		}
+		function normalizePrismBlock(codeElement) {
+			if (!codeElement || !codeElement.parentElement) return;
+			var pre = codeElement.parentElement;
+			if (pre.tagName !== 'PRE') return;
+			var langClass = getPrismLanguageClass(codeElement) || getPrismLanguageClass(pre);
+			if (langClass) {
+				if (!pre.classList.contains(langClass)) pre.classList.add(langClass);
+				if (!codeElement.classList.contains(langClass)) codeElement.classList.add(langClass);
+			}
+			if (prismLineEnabled) {
+				pre.classList.add('line-numbers');
+			}
+		}
+		function initPrism() {
+			if (!window.Prism || !Prism.highlightAll) return;
+			var blocks = document.querySelectorAll('pre > code');
+			blocks.forEach(function (codeElement) {
+				normalizePrismBlock(codeElement);
 			});
-			Prism.highlightAll(false,null);
+			var container = document.querySelector('#pjax-container') || document;
+			if (Prism.highlightAllUnder) {
+				Prism.highlightAllUnder(container);
+			} else {
+				Prism.highlightAll(false, null);
+			}
+		}
+		<?php endif; ?>
+		function init(){
+			<?php if($this->options->prismjs): ?>
+			initPrism();
 			<?php endif; ?>
 			$("img").Lazy({
                 threshold: 700,
