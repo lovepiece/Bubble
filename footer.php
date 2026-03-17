@@ -55,7 +55,7 @@
 			<div class="row">
 				<div class="col-md-6">
 					<div class="copyright">
-						<?php _e($this->options->footerText); ?>
+						<?php _e((string)($this->options->footerText ?? 'Powered by Typecho | Theme by Bubble')); ?>
 					</div>
 				</div>
 				<div class="col-md-6">
